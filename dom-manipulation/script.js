@@ -146,3 +146,44 @@ window.onload = function() {
     restoreSelectedFilter();
     showRandomQuote();
 };
+
+function syncLocalQuotesToServer() {
+    const localData = quotes.map(quote => ({
+        title: quote.text,
+        body: quote.category        
+    }));
+
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify(localData),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Local data synced to server:', data);       
+    })
+    .catch(error => console.error('Error syncing local data:', error));
+}
+
+addQuoteBtn.addEventListener('click', () => {
+    addQuote();
+    syncLocalQuotesToServer();
+});
+
+function resolveConflicts(serverQuotes) {
+    if (JSON.stringify(quotes) !== JSON.stringify(serverQuotes)) {
+        quotes = serverQuotes;
+        saveQuotes();
+        alert('Conflicts detected, resolved using server data.');
+    }    
+}
+
+function manualConflictResolution(serverQuotes) {
+    const userChoice = confirm('Conflicts detected! Do you want to keep your local data? Click "Cancel" to use server data.');
+    if (!userChoice) {
+        quotes = serverQuotes;
+        saveQuotes();
+    }
+}
