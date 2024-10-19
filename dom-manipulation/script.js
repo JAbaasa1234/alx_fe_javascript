@@ -172,6 +172,19 @@ addQuoteBtn.addEventListener('click', () => {
     syncLocalQuotesToServer();
 });
 
+function fetchQuotesFromServer() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => response.json())
+        .then(serverQuotes => {
+            const formattedServerQuotes = serverQuotes.map(quote => ({
+                text: quote.title,
+                category: quote.body
+            }));
+            resolveConflicts(formattedServerQuotes);
+        })
+        .catch(error => console.error('Error fetching data from server:', error));
+}
+
 function resolveConflicts(serverQuotes) {
     if (JSON.stringify(quotes) !== JSON.stringify(serverQuotes)) {
         quotes = serverQuotes;
