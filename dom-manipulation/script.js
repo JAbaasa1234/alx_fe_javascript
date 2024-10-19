@@ -209,3 +209,5 @@ function manualConflictResolution(serverQuotes) {
         saveQuotes();
     }
 }
+
+setInterval(fetchQuotesFromServer, 60000);
