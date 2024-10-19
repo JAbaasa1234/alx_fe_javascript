@@ -167,9 +167,13 @@ function syncLocalQuotesToServer() {
     .catch(error => console.error('Error syncing local data:', error));
 }
 
+function syncQuotes() {
+    syncLocalQuotesToServer();
+}
+
 addQuoteBtn.addEventListener('click', () => {
     addQuote();
-    syncLocalQuotesToServer();
+    syncQuotes();
 });
 
 async function fetchQuotesFromServer() {
