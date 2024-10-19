@@ -162,9 +162,30 @@ function syncLocalQuotesToServer() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Local data synced to server:', data);       
+        console.log('Local data synced to server:', data);
+        
+        showSyncNotification("Quotes synced with server!");
     })
     .catch(error => console.error('Error syncing local data:', error));
+}
+
+function showSyncNotification(message) {
+    const notificationDiv = document.createElement('div');
+    notificationDiv.textContent = message;
+    notificationDiv.style.backgroundColor = '#4caf50'; // Green color for success
+    notificationDiv.style.color = 'white';
+    notificationDiv.style.padding = '10px';
+    notificationDiv.style.marginTop = '10px';
+    notificationDiv.style.textAlign = 'center';
+    notificationDiv.style.position = 'fixed';
+    notificationDiv.style.top = '0';
+    notificationDiv.style.width = '100%';
+    document.body.appendChild(notificationDiv);
+
+    // Automatically remove the notification after 3 seconds
+    setTimeout(() => {
+        notificationDiv.remove();
+    }, 3000);
 }
 
 function syncQuotes() {
