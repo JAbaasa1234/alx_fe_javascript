@@ -15,8 +15,7 @@ function showRandomQuote() {
 }
 
 function createAddQuoteForm() {
-    const formDiv = document.createElement('div');
-    formDiv.id = 'quoteForm';
+    const formDiv = document.querySelector('.quoteForm');
 
     const formTitle = document.createElement('h2');
     formTitle.textContent = 'Add a New Quote';
@@ -39,9 +38,9 @@ function createAddQuoteForm() {
     addButton.textContent = 'Add Quote';
     addButton.addEventListener('click', addQuote);
     formDiv.appendChild(addButton);
-
-    document.body.appendChild(formDiv);
 }
+
+createAddQuoteForm();
 
 function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value;
