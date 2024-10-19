@@ -172,17 +172,22 @@ addQuoteBtn.addEventListener('click', () => {
     syncLocalQuotesToServer();
 });
 
-function fetchQuotesFromServer() {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(serverQuotes => {
-            const formattedServerQuotes = serverQuotes.map(quote => ({
-                text: quote.title,
-                category: quote.body
-            }));
-            resolveConflicts(formattedServerQuotes);
-        })
-        .catch(error => console.error('Error fetching data from server:', error));
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const serverQuotes = await response.json();
+        
+        // Formatting server data
+        const formattedServerQuotes = serverQuotes.map(quote => ({
+            text: quote.title,
+            category: quote.body
+        }));
+
+        // Resolving conflicts
+        resolveConflicts(formattedServerQuotes);
+    } catch (error) {
+        console.error('Error fetching data from server:', error);
+    }
 }
 
 function resolveConflicts(serverQuotes) {
